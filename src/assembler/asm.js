@@ -55,8 +55,16 @@ app.service('assembler', ['opcodes', function (opcodes) {
                     return 2;
                 } else if (input === 'D') {
                     return 3;
+				} else if (input === 'E') {
+					return 4;
+				} else if (input === 'F') {
+					return 5;
+				} else if (input === 'G') {
+					return 6;
+				} else if (input === 'H') {
+					return 7;
                 } else if (input === 'SP') {
-                    return 4;
+                    return 8;
                 } else {
                     return undefined;
                 }
@@ -75,8 +83,16 @@ app.service('assembler', ['opcodes', function (opcodes) {
                     base = 2;
                 } else if (input[0] === 'D') {
                     base = 3;
-                } else if (input.slice(0, 2) === "SP") {
+                } else if (input[0] === 'E') {
                     base = 4;
+                } else if (input[0] === 'F') {
+                    base = 5;
+                } else if (input[0] === 'G') {
+                    base = 6;
+                } else if (input[0] === 'H') {
+                    base = 7;
+                } else if (input.slice(0, 2) === "SP") {
+                    base = 8;
                 } else {
                     return undefined;
                 }
@@ -172,7 +188,7 @@ app.service('assembler', ['opcodes', function (opcodes) {
                 if (upperLabel in normalizedLabels)
                     throw "Duplicate label: " + label;
 
-                if (upperLabel === "A" || upperLabel === "B" || upperLabel === "C" || upperLabel === "D")
+                if (upperLabel === "A" || upperLabel === "B" || upperLabel === "C" || upperLabel === "D" || upperLabel === "E" || upperLabel === "F" || upperLabel === "G" || upperLabel === "H")
                     throw "Label contains keyword: " + upperLabel;
 
                 labels[label] = code.length;

@@ -581,7 +581,7 @@ app.service('cpu', ['opcodes', 'memory', function(opcodes, memory) {
             self.maxSP = 231;
             self.minSP = 0;
 
-            self.gpr = [0, 0, 0, 0];
+            self.gpr = [0, 0, 0, 0, 0, 0, 0, 0];
             self.sp = self.maxSP;
             self.ip = 0;
             self.zero = false;
