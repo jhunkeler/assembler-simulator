@@ -56,8 +56,16 @@ var app = angular.module('ASMSimulator', []);
                     return 2;
                 } else if (input === 'D') {
                     return 3;
+				} else if (input === 'E') {
+					return 4;
+				} else if (input === 'F') {
+					return 5;
+				} else if (input === 'G') {
+					return 6;
+				} else if (input === 'H') {
+					return 7;
                 } else if (input === 'SP') {
-                    return 4;
+                    return 8;
                 } else {
                     return undefined;
                 }
@@ -76,8 +84,16 @@ var app = angular.module('ASMSimulator', []);
                     base = 2;
                 } else if (input[0] === 'D') {
                     base = 3;
-                } else if (input.slice(0, 2) === "SP") {
+                } else if (input[0] === 'E') {
                     base = 4;
+                } else if (input[0] === 'F') {
+                    base = 5;
+                } else if (input[0] === 'G') {
+                    base = 6;
+                } else if (input[0] === 'H') {
+                    base = 7;
+                } else if (input.slice(0, 2) === "SP") {
+                    base = 8;
                 } else {
                     return undefined;
                 }
@@ -131,8 +147,8 @@ var app = angular.module('ASMSimulator', []);
                         if (isNaN(value)) {
                             throw "Not a " + typeNumber + ": " + value;
                         }
-                        else if (value < 0 || value > 255)
-                            throw typeNumber + " must have a value between 0-255";
+                        //else if (value < 0 || value > 255)
+                        //    throw typeNumber + " must have a value between 0-255";
 
                         return {type: typeNumber, value: value};
                     }
@@ -173,7 +189,7 @@ var app = angular.module('ASMSimulator', []);
                 if (upperLabel in normalizedLabels)
                     throw "Duplicate label: " + label;
 
-                if (upperLabel === "A" || upperLabel === "B" || upperLabel === "C" || upperLabel === "D")
+                if (upperLabel === "A" || upperLabel === "B" || upperLabel === "C" || upperLabel === "D" || upperLabel === "E" || upperLabel === "F" || upperLabel === "G" || upperLabel === "H")
                     throw "Label contains keyword: " + upperLabel;
 
                 labels[label] = code.length;
@@ -712,17 +728,25 @@ var app = angular.module('ASMSimulator', []);
                     self.zero = false;
                     self.carry = false;
 
-                    if (value >= 256) {
+                    if (value >= 65536) {
                         self.carry = true;
-                        value = value % 256;
+                        value = value % 65536;
                     } else if (value === 0) {
                         self.zero = true;
                     } else if (value < 0) {
                         self.carry = true;
-                        value = 256 - (-value) % 256;
+                        value = 65536 - (-value) % 65536;
                     }
 
                     return value;
+                };
+
+                var simpleFlag = function(value) {
+                    if (value) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
                 };
 
                 var jump = function(newIP) {
@@ -1215,10 +1239,10 @@ var app = angular.module('ASMSimulator', []);
         },
         reset: function() {
             var self = this;
-            self.maxSP = 231;
+            self.maxSP = 435;
             self.minSP = 0;
 
-            self.gpr = [0, 0, 0, 0];
+            self.gpr = [0, 0, 0, 0, 0, 0, 0, 0];
             self.sp = self.maxSP;
             self.ip = 0;
             self.zero = false;
@@ -1232,7 +1256,7 @@ var app = angular.module('ASMSimulator', []);
 }]);
 ;app.service('memory', [function () {
     var memory = {
-        data: Array(256),
+        data: Array(1024),
         lastAccess: -1,
         load: function (address) {
             var self = this;
@@ -1358,12 +1382,26 @@ var app = angular.module('ASMSimulator', []);
     $scope.displayB = false;
     $scope.displayC = false;
     $scope.displayD = false;
+    $scope.displayE = false;
+    $scope.displayF = false;
+    $scope.displayG = false;
+    $scope.displayH = false;
     $scope.speeds = [{speed: 1, desc: "1 HZ"},
                      {speed: 4, desc: "4 HZ"},
                      {speed: 8, desc: "8 HZ"},
-                     {speed: 16, desc: "16 HZ"}];
-    $scope.speed = 4;
-    $scope.outputStartIndex = 232;
+                     {speed: 16, desc: "16 HZ"},
+                     {speed: 24, desc: "24 HZ"},
+                     {speed: 32, desc: "32 HZ"},
+                     {speed: 64, desc: "64 HZ"},
+                     {speed: 96, desc: "96 HZ"},
+                     {speed: 128, desc: "128 HZ"},
+                     {speed: 256, desc: "256 HZ"},
+                     {speed: 1000, desc: "1 MHZ"},
+                     {speed: 4000, desc: "4 MHZ"},
+                     {speed: 8000, desc: "8 MHZ"}
+                    ];
+    $scope.speed = 16;
+    $scope.outputStartIndex = 436;
 
     $scope.code = "; Simple example\n; Writes Hello World to the output\n\n	JMP start\nhello: DB \"Hello World!\" ; Variable\n       DB 0	; String terminator\n\nstart:\n	MOV C, hello    ; Point to var \n	MOV D, 232	; Point to output\n	CALL print\n        HLT             ; Stop execution\n\nprint:			; print(C:*from, D:*to)\n	PUSH A\n	PUSH B\n	MOV B, 0\n.loop:\n	MOV A, [C]	; Get char from var\n	MOV [D], A	; Write to output\n	INC C\n	INC D  \n	CMP B, [C]	; Check if end\n	JNZ .loop	; jump if not\n\n	POP B\n	POP A\n	RET";
 
@@ -1498,6 +1536,14 @@ var app = angular.module('ASMSimulator', []);
             return 'marker marker-c';
         } else if (index === cpu.gpr[3] && $scope.displayD) {
             return 'marker marker-d';
+        } else if (index === cpu.gpr[4] && $scope.displayE) {
+            return 'marker marker-e';
+        } else if (index === cpu.gpr[5] && $scope.displayF) {
+            return 'marker marker-f';
+        } else if (index === cpu.gpr[6] && $scope.displayG) {
+            return 'marker marker-g';
+        } else if (index === cpu.gpr[7] && $scope.displayH) {
+            return 'marker marker-h';
         } else {
             return '';
         }
@@ -1505,14 +1551,30 @@ var app = angular.module('ASMSimulator', []);
 }]);
 ;app.filter('flag', function() {
     return function(input) {
+        if (input) {
+            input = 1;
+        } else {
+            input = 0;
+        }
         return input.toString().toUpperCase();
     };
 });
 ;app.filter('number', function() {
     return function(input, isHex) {
+        function zpad(input, n) {
+            if(input === undefined){
+                input = "";
+            }
+            if(input.length >= n){
+                return input;
+            }
+            var zeros = "0".repeat(n);
+            return (zeros + input).slice(-1 * n);
+        }
         if (isHex) {
             var hex = input.toString(16).toUpperCase();
-            return hex.length == 1 ? "0" + hex: hex;
+            //return hex.length == 1 ? "0" + hex: hex;
+            return zpad(hex, 4);
         } else {
             return input.toString(10);
         }

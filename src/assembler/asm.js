@@ -146,8 +146,8 @@ app.service('assembler', ['opcodes', function (opcodes) {
                         if (isNaN(value)) {
                             throw "Not a " + typeNumber + ": " + value;
                         }
-                        else if (value < 0 || value > 255)
-                            throw typeNumber + " must have a value between 0-255";
+                        //else if (value < 0 || value > 255)
+                        //    throw typeNumber + " must have a value between 0-255";
 
                         return {type: typeNumber, value: value};
                     }

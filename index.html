@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="ASMSimulator">
 <head>
-    <title>Simple 8-bit Assembler Simulator in Javascript</title>
+    <title>Simple 16-bit Assembler Simulator in Javascript</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/style.css">
@@ -21,7 +21,7 @@
                 <button type="button" class="btn btn-default navbar-btn" ng-click="reset()">Reset</button>
             </div>
             <div class="navbar-header navbar-right">
-                <a class="navbar-brand" style="color:#FFFFFF">Simple 8-bit Assembler Simulator</a>
+                <a class="navbar-brand" style="color:#FFFFFF">Simple 16-bit Assembler Simulator</a>
             </div>
         </div>
     </nav>
@@ -73,15 +73,6 @@
                                     <th style="text-align:center">B</th>
                                     <th style="text-align:center">C</th>
                                     <th style="text-align:center">D</th>
-                                    <th style="text-align:center">E</th>
-                                    <th style="text-align:center">F</th>
-                                    <th style="text-align:center">G</th>
-                                    <th style="text-align:center">H</th>
-                                    <th style="text-align:center">IP</th>
-                                    <th style="text-align:center">SP</th>
-                                    <th style="text-align:center">Z</th>
-                                    <th style="text-align:center">C</th>
-                                    <th style="text-align:center">F</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -90,15 +81,44 @@
                                     <td><div style="margin:auto;" ng-class="displayB && 'marker marker-b'"><small>{{ cpu.gpr[1] | number:displayHex }}</small></div></td>
                                     <td><div style="margin:auto;" ng-class="displayC && 'marker marker-c'"><small>{{ cpu.gpr[2] | number:displayHex }}</small></div></td>
                                     <td><div style="margin:auto;" ng-class="displayD && 'marker marker-d'"><small>{{ cpu.gpr[3] | number:displayHex }}</small></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-condensed table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">E</th>
+                                    <th style="text-align:center">F</th>
+                                    <th style="text-align:center">G</th>
+                                    <th style="text-align:center">H</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="text-align:center;" class="source-code">
                                     <td><div style="margin:auto;" ng-class="displayE && 'marker marker-e'"><small>{{ cpu.gpr[4] | number:displayHex }}</small></div></td>
                                     <td><div style="margin:auto;" ng-class="displayF && 'marker marker-f'"><small>{{ cpu.gpr[5] | number:displayHex }}</small></div></td>
                                     <td><div style="margin:auto;" ng-class="displayG && 'marker marker-g'"><small>{{ cpu.gpr[6] | number:displayHex }}</small></div></td>
                                     <td><div style="margin:auto;" ng-class="displayH && 'marker marker-h'"><small>{{ cpu.gpr[7] | number:displayHex }}</small></div></td>
-                                    <td><div style="margin:auto;" class="marker marker-ip"><small>{{ cpu.ip | number:displayHex }}</small></div></td>
-                                    <td><div style="margin:auto;" class="marker marker-sp"><small>{{ cpu.sp | number:displayHex }}</small></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-condensed table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Z</th>
+                                    <th style="text-align:center">C</th>
+                                    <th style="text-align:center">F</th>
+                                    <th style="text-align:center">IP</th>
+                                    <th style="text-align:center">SP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="text-align:center;" class="source-code">
                                     <td><div style="margin:auto;"><small>{{ cpu.zero | flag }}</small></div></td>
                                     <td><div style="margin:auto;"><small>{{ cpu.carry | flag }}</small></div></td>
                                     <td><div style="margin:auto;"><small>{{ cpu.fault | flag }}</small></div></td>
+                                    <td><div style="margin:auto;" class="marker marker-ip"><small>{{ cpu.ip | number:displayHex }}</small></div></td>
+                                    <td><div style="margin:auto;" class="marker marker-sp"><small>{{ cpu.sp | number:displayHex }}</small></div></td>
                                 </tr>
                             </tbody>
                         </table>
