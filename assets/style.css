@@ -62,6 +62,22 @@
 	background-color: #E81F1F;
 }
 
+.marker-e {
+	background-color: #993300;
+}
+
+.marker-f {
+	background-color: #003300;
+}
+
+.marker-g {
+	background-color: #666600;
+}
+
+.marker-h {
+	background-color: #66b3ff;
+}
+
 .codelabel-line a {
     cursor: pointer;
 }

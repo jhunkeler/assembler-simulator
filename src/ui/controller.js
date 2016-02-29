@@ -9,16 +9,26 @@ app.controller('Ctrl', ['$document', '$scope', '$timeout', 'cpu', 'memory', 'ass
     $scope.displayB = false;
     $scope.displayC = false;
     $scope.displayD = false;
+    $scope.displayE = false;
+    $scope.displayF = false;
+    $scope.displayG = false;
+    $scope.displayH = false;
     $scope.speeds = [{speed: 1, desc: "1 HZ"},
                      {speed: 4, desc: "4 HZ"},
                      {speed: 8, desc: "8 HZ"},
                      {speed: 16, desc: "16 HZ"},
                      {speed: 24, desc: "24 HZ"},
                      {speed: 32, desc: "32 HZ"},
-					 {speed: 1000, desc: "1 MHZ"}
-					];
-    $scope.speed = 8;
-    $scope.outputStartIndex = 232;
+                     {speed: 64, desc: "64 HZ"},
+                     {speed: 96, desc: "96 HZ"},
+                     {speed: 128, desc: "128 HZ"},
+                     {speed: 256, desc: "256 HZ"},
+                     {speed: 1000, desc: "1 MHZ"},
+                     {speed: 4000, desc: "4 MHZ"},
+                     {speed: 8000, desc: "8 MHZ"}
+                    ];
+    $scope.speed = 16;
+    $scope.outputStartIndex = 200;
 
     $scope.code = "; Simple example\n; Writes Hello World to the output\n\n	JMP start\nhello: DB \"Hello World!\" ; Variable\n       DB 0	; String terminator\n\nstart:\n	MOV C, hello    ; Point to var \n	MOV D, 232	; Point to output\n	CALL print\n        HLT             ; Stop execution\n\nprint:			; print(C:*from, D:*to)\n	PUSH A\n	PUSH B\n	MOV B, 0\n.loop:\n	MOV A, [C]	; Get char from var\n	MOV [D], A	; Write to output\n	INC C\n	INC D  \n	CMP B, [C]	; Check if end\n	JNZ .loop	; jump if not\n\n	POP B\n	POP A\n	RET";
 
@@ -153,13 +163,13 @@ app.controller('Ctrl', ['$document', '$scope', '$timeout', 'cpu', 'memory', 'ass
             return 'marker marker-c';
         } else if (index === cpu.gpr[3] && $scope.displayD) {
             return 'marker marker-d';
-        } else if (index === cpu.gpr[4] && $scope.displayD) {
+        } else if (index === cpu.gpr[4] && $scope.displayE) {
             return 'marker marker-e';
-        } else if (index === cpu.gpr[5] && $scope.displayD) {
+        } else if (index === cpu.gpr[5] && $scope.displayF) {
             return 'marker marker-f';
-        } else if (index === cpu.gpr[6] && $scope.displayD) {
+        } else if (index === cpu.gpr[6] && $scope.displayG) {
             return 'marker marker-g';
-        } else if (index === cpu.gpr[7] && $scope.displayD) {
+        } else if (index === cpu.gpr[7] && $scope.displayH) {
             return 'marker marker-h';
         } else {
             return '';
