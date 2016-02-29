@@ -26,7 +26,7 @@
             <li><a href="http://cs.smith.edu/~thiebaut/ArtOfAssembly/artofasm.html" target="_blank">The Art of Assembly Language Programming</a></li>
             <li><a href="http://www.nasm.us/xdoc/2.10.09/html/nasmdoc3.html" target="_blank">NASM Language Documentation</a></li>
         </ul>
-        <p>The simulator consists of a 8-bit cpu and 256 bytes of memory. All instructions (code) and variables (data) needs to fit inside the memory. For simplicity every instruction (and operand) is 1 byte. Therefore a MOV instruction will use 3 bytes of memory. The simulator provides a console output which is memory mapped from 0xE8 to 0xFF. Memory mapped means that every value written to this memory block is visible on the console.</p>
+        <p>The simulator consists of a 8-bit cpu and 256 bytes of memory. All instructions (code) and variables (data) needs to fit inside the memory. For simplicity every instruction (and operand) is 1 byte. Therefore a MOV instruction will use 3 bytes of memory. The simulator provides a console output which is memory mapped from 0x1B4 to 0x3FF. Memory mapped means that every value written to this memory block is visible on the console.</p>
         <h4>Syntax</h4>
         <p>The syntax is similar as most assemblers are using. Every instruction must be on their own line. Labels are optional and must either start with a letter or a dot (.) and end with a colon.</p>
         <pre>label: instruction operands	; Comment</pre>
@@ -47,7 +47,7 @@ String: "Hello World!"
 		Stack pointer register can only be used as operand in MOV, ADD, SUB, CMP, INC and DEC instructions.
 		Instead of defining an address as a constant or by using a register you can use labels. The assembler will then replace the label with the corresponding constant.</p>
 <pre>
-General purpose (GP) register: A, B, C, D
+General purpose (GP) register: A, B, C, D, E, F, G
 Stack pointer register: SP
 Address using a GP register: [A]
 Address using a GP register and offset: [D-3]
